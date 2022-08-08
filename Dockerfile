@@ -10,9 +10,11 @@ ENV SCHEDULE "0 5 * * *"
 ENV CONTAINERS ""
 ENV OPTIONS ""
 
-COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY ./script.sh /app/
+COPY /entrypoint.sh /app/
+COPY /script.sh /app/
 
-RUN mkdir /app/log/
+RUN mkdir /app/log/ && \
+    chown -R root:root /app/ && \
+    chmod -R 777 /app/
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
