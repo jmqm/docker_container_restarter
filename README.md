@@ -1,4 +1,4 @@
-Restarts Docker container automatically on a schedule.
+Restarts Docker containers automatically on a schedule.
 
 ## docker-compose
 ```
