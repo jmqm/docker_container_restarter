@@ -2,8 +2,8 @@
 
 # --------------- [ RUN ] ---------------
 
-docker restart $OPTIONS $CONTAINER_NAMES &> /dev/null
-OUTPUT="${OUTPUT}Restarted container(s) - ${CONTAINER_NAMES}"
+docker restart $OPTIONS $CONTAINERS &> /dev/null
+OUTPUT="${OUTPUT}Restarted container(s) - ${CONTAINERS}"
 
 # ------------------ [ EXIT ] ------------------
 

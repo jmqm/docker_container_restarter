@@ -1,12 +1,11 @@
 Restarts Docker container automatically in a schedule.
 
-## Usage
-
 ## docker-compose
 ```
 services:
   container:
     # Container configuration here.
+
   backup:
     image: jmqm/docker_container_restarter:latest
     container_name: container_restarter
@@ -16,25 +15,24 @@ services:
 
       - /etc/localtime:/etc/localtime:ro # Container uses date from host.
     environment:
-      - CONTAINER_NAMES=container # One or more, separated by spaces
+      - CONTAINERS=container # One or more, separated by spaces
       - OPTIONS=--time 300 # Five minutes to wait before killing container(s)
       - SCHEDULE=0 5 * * * # 5:00 AM daily
+    depends_on
+      - container
 
 ```
 
 ## Volumes _(permission required)_
-`/data` _(read)_- Vaultwarden's `/data` directory. Recommend setting mount as read-only.
-
-`/backups` _(write)_ - Where to store backups to.
+- `/var/run/docker.sock` _(read/write)_
 
 ## Environment Variables
 #### ⭐Required, 👍 Recommended
 | Environment Variable | Info                                                                                                     |
 | -------------------- | -------------------------------------------------------------------------------------------------------- |
-| UID                ⭐| User ID to run the cron job as.                                                                          |
-| GID                ⭐| Group ID to run the cron job as.                                                                         |
-| CRON_TIME          👍| When to run _(default is every 12 hours)_. Info [here][cron-format-wiki] and editor [here][cron-editor]. |
-| DELETE_AFTER       👍| Delete backups _X_ days old. Requires `read` and `write` permissions.                                    |
+| CONTAINERS ⭐        | Name of the containers to restart, separated by commas.                                                  |
+| SCHEDULE ⭐          | When to run _(default is 5:00 AM)_. Info [here][cron-format-wiki] and editor [here][cron-editor].        |
+| OPTIONS 👍           | Options to pass to command `docker restart`. Docs [here][docker-restart-docs].                           |
 
 #### Optional
 | Environment Variable | Info                                                                                       |
@@ -43,9 +41,9 @@ services:
 
 ¹ See <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones> for more information
 
-## Errors
-#### Unexpected timestamp
-Mount `/etc/localtime` _(recommend mounting as read-only)_ or set `TZ` environment variable.
+## Take note of...
+- All shell scripts are being ran as root.
 
 [cron-format-wiki]: https://www.ibm.com/docs/en/db2oc?topic=task-unix-cron-format
 [cron-editor]: https://crontab.guru/
+[docker-restart-docs]: https://docs.docker.com/engine/reference/commandline/restart/
