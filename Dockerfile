@@ -7,7 +7,7 @@ RUN apk add --update --no-cache \
     tzdata
 
 ENV SCHEDULE "0 5 * * *"
-ENV CONTAINER_NAMES ""
+ENV CONTAINERS ""
 ENV OPTIONS ""
 
 COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
