@@ -10,10 +10,11 @@ services:
     image: jmqm/docker_container_restarter:latest
     container_name: container_restarter
     network_mode: none
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-      - /etc/localtime:/etc/localtime:ro # Container uses date from host.
+      - /etc/localtime:/etc/localtime:ro # Container uses date from host
     environment:
       - CONTAINERS=container # One or more, separated by spaces
       - OPTIONS=--time 300 # Five minutes to wait before killing container(s)
