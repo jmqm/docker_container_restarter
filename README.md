@@ -4,9 +4,9 @@ Restarts Docker containers automatically on a schedule.
 ```
 services:
   container:
-    # Container configuration here.
+    # ...
 
-  backup:
+  restarter:
     image: jmqm/docker_container_restarter:latest
     container_name: container_restarter
     network_mode: none
